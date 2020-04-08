@@ -1,0 +1,94 @@
+version: '3'
+
+services:
+  portainer:
+    restart: always
+    image: portainer/portainer:latest
+    container_name: portainer
+    volumes:
+      - ./data/portainer:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    dns:
+      - 1.1.1.1
+      - 1.0.0.1
+    networks:
+      dev:
+        ipv4_address: 10.100.100.253
+
+  dns:
+    restart: always
+    image: jherrerotardon/dnsmasq:2.80
+    container_name: dns
+    volumes:
+      - ./files/dnsmasq/dnsmasq.conf:/etc/dnsmasq.conf
+    ports: 
+      - 53:53
+    networks:
+      dev:
+        ipv4_address: 10.100.100.2
+
+  nginx:
+    restart: always
+    image: nginx:latest
+    container_name: nginx
+    depends_on: 
+      - dns
+    volumes:
+      - ./logs/nginx:/var/log/nginx
+    dns:
+      - 10.100.100.254
+    networks:
+      dev:
+        ipv4_address: 10.100.100.3
+        
+  redis:
+    restart: always
+    container_name: redis
+    image: "redis:latest"
+    depends_on: 
+      - dns
+    volumes: 
+      - ./logs/redis:/var/log/redis
+      - ./data/redis:/var/lib/redis
+    dns:
+      - 10.100.100.2
+    networks:
+      dev:
+        ipv4_address: 10.100.100.20
+  
+  mongodb:
+    image: mongo:4.2
+    container_name: mongodb
+    depends_on: 
+      - dns
+    volumes:
+      - ./logs/mongodb:/var/log/mongodb
+      - ./data/mongodb:/data/db
+    ports:
+      - 127.100.100.42:27017:27017
+    dns:
+      - 10.100.100.2
+    networks:
+      dev:
+        ipv4_address: 10.100.100.21
+
+  mysql:
+    image: mysql:8
+    container_name: mysql.8
+    depends_on: 
+      - dns
+    volumes:
+      - ./logs/mongodb.42:/var/log/mysql
+      - ./data/mongodb.42:/var/lib/mysql
+    dns:
+      - 10.100.100.2
+    networks:
+      dev:
+        ipv4_address: 10.100.100.22
+
+networks:
+  dev:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.100.100.0/24
