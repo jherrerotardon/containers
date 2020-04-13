@@ -64,8 +64,6 @@ services:
     volumes:
       - ./logs/mongodb:/var/log/mongodb
       - ./data/mongodb:/data/db
-    ports:
-      - 127.100.100.42:27017:27017
     dns:
       - 10.100.100.2
     networks:
@@ -75,11 +73,13 @@ services:
   mysql:
     image: mysql:8
     container_name: mysql.8
+    environment: 
+      MYSQL_ROOT_PASSWORD: development
     depends_on: 
       - dns
     volumes:
-      - ./logs/mongodb.42:/var/log/mysql
-      - ./data/mongodb.42:/var/lib/mysql
+      - ./logs/mysql:/var/log/mysql
+      - ./data/mysql:/var/lib/mysql
     dns:
       - 10.100.100.2
     networks:
