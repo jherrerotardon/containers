@@ -72,7 +72,7 @@ services:
 
   mysql:
     image: mysql:8
-    container_name: mysql.8
+    container_name: mysql
     environment: 
       MYSQL_ROOT_PASSWORD: development
     depends_on: 
