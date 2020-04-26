@@ -37,6 +37,8 @@ services:
       - ./logs/nginx:/var/log/nginx
     dns:
       - 10.100.100.254
+    ports:
+      - 80:80
     networks:
       dev:
         ipv4_address: 10.100.100.3
