@@ -13,7 +13,7 @@ services:
       - 1.0.0.1
     networks:
       dev:
-        ipv4_address: 10.100.100.253
+        ipv4_address: 10.10.10.253
 
   dns:
     restart: always
@@ -25,7 +25,7 @@ services:
       - 53:53
     networks:
       dev:
-        ipv4_address: 10.100.100.2
+        ipv4_address: 10.10.10.2
 
   nginx:
     restart: always
@@ -34,14 +34,18 @@ services:
     depends_on: 
       - dns
     volumes:
+      - ~/ProjectsPersonal/php:/var/www:cached
+      - ./files/nginx/config/conf.d:/etc/nginx/conf.d:cached
+      - ./files/nginx/certs:/etc/ssl/certs:cached
       - ./logs/nginx:/var/log/nginx
     dns:
-      - 10.100.100.254
+      - 10.10.10.2
     ports:
       - 80:80
+      - 443:443
     networks:
       dev:
-        ipv4_address: 10.100.100.3
+        ipv4_address: 10.10.10.3
         
   redis:
     restart: always
@@ -53,10 +57,10 @@ services:
       - ./logs/redis:/var/log/redis
       - ./data/redis:/var/lib/redis
     dns:
-      - 10.100.100.2
+      - 10.10.10.2
     networks:
       dev:
-        ipv4_address: 10.100.100.20
+        ipv4_address: 10.10.10.20
   
   mongodb:
     image: mongo:4.2
@@ -67,10 +71,10 @@ services:
       - ./logs/mongodb:/var/log/mongodb
       - ./data/mongodb:/data/db
     dns:
-      - 10.100.100.2
+      - 10.10.10.2
     networks:
       dev:
-        ipv4_address: 10.100.100.21
+        ipv4_address: 10.10.10.21
 
   mysql:
     image: mysql:8
@@ -83,14 +87,31 @@ services:
       - ./logs/mysql:/var/log/mysql
       - ./data/mysql:/var/lib/mysql
     dns:
-      - 10.100.100.2
+      - 10.10.10.2
     networks:
       dev:
-        ipv4_address: 10.100.100.22
+        ipv4_address: 10.10.10.22
+
+  php:
+    image: jherrerotardon/php:7.4-fpm
+    container_name: php
+    depends_on: 
+      - dns
+    volumes:
+      - ~/Projects/php:/var/www:cached
+      - ./files/php/config/fpm/:/etc/php/fpm/:cached
+      - ./logs/php:/var/log/php:cached
+    dns:
+      - 10.10.10.2
+    ports: 
+      - 9000:9000
+    networks:
+      dev:
+        ipv4_address: 10.10.10.23
 
 networks:
   dev:
     driver: bridge
     ipam:
       config:
-        - subnet: 10.100.100.0/24
+        - subnet: 10.10.10.0/24
