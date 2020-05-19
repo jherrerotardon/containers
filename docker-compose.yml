@@ -88,18 +88,21 @@ services:
       - ./data/mysql:/var/lib/mysql
     dns:
       - 10.10.10.2
+    ports: 
+      - 3306:3306
     networks:
       dev:
         ipv4_address: 10.10.10.22
 
   php:
-    image: jherrerotardon/php:7.4-fpm
+    #image: jherrerotardon/php:7.4-fpm
+    build: ./files/php
     container_name: php
     depends_on: 
       - dns
     volumes:
-      - ~/Projects/php:/var/www:cached
-      - ./files/php/config/fpm/:/etc/php/fpm/:cached
+      - ~/ProjectsPersonal/php:/var/www:cached
+      - ./files/php/config/:/usr/local/etc/:cached
       - ./logs/php:/var/log/php:cached
     dns:
       - 10.10.10.2
@@ -108,6 +111,7 @@ services:
     networks:
       dev:
         ipv4_address: 10.10.10.23
+
 
 networks:
   dev:

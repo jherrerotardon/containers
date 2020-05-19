@@ -23,6 +23,9 @@ RUN apt update && \
         zip \
         unzip
 
+# Install php modules.
+RUN docker-php-ext-install pdo_mysql
+
 EXPOSE 9000
 
-CMD ["php-fpm", "--fpm-config", "/etc/php/fpm/php-fpm.conf"]
+CMD ["php-fpm", "--fpm-config", "/usr/local/etc/php-fpm.conf"]
