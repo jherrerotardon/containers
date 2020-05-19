@@ -112,6 +112,19 @@ services:
       dev:
         ipv4_address: 10.10.10.23
 
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    depends_on:
+      - dns
+    volumes: 
+      - ./logs/rabbitmq:/var/log/rabbitmq
+      - ./data/rabbitmq:/var/lib/rabbitmq
+    dns: 
+      - 10.10.10.2
+    networks:
+      dev:
+        ipv4_address: 10.10.10.24
 
 networks:
   dev:
