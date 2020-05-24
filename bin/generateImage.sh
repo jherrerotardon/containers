@@ -90,11 +90,13 @@ fi
 IMAGE="${USERNAME}/${REPOSITORY}"
 IMAGE_TAGGED="${IMAGE}:${TAG}"
 
-echo "\033[0;32mBuilding image ${IMAGE}...\033[0m"
+echo -e "\033[0;32mBuilding image ${IMAGE}...\033[0m" && sleep 2
 docker build -t ${IMAGE} ${DOCKERFILE_FOlDER}
 docker tag ${IMAGE} ${IMAGE_TAGGED}
 
+echo "\n\n"
+
 if [ ${UPLOAD} -eq 1 ]; then
-  echo "\033[0;32m'Pushing ${IMAGE_TAGGED}...\033[0m"
-  docker push rusrushal13/get-started:part1
+  echo -e "\033[0;32mPushing ${IMAGE_TAGGED}...\033[0m"
+  docker push ${IMAGE_TAGGED}
 fi
