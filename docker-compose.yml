@@ -95,8 +95,7 @@ services:
         ipv4_address: 10.10.10.22
 
   php:
-    #image: jherrerotardon/php:7.4-fpm
-    build: ./files/php
+    image: jherrerotardon/php:7.4-fpm
     container_name: php
     depends_on: 
       - dns
