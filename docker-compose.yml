@@ -100,7 +100,7 @@ services:
     depends_on: 
       - dns
     volumes:
-      - ~/ProjectsPersonal/php:/var/www:cached
+      - ~/Projects/php:/var/www:cached
       - ./files/php/config/:/usr/local/etc/:cached
       - ./logs/php:/var/log/php:cached
     dns:
