@@ -94,7 +94,7 @@ echo -e "\033[0;32mBuilding image ${IMAGE}...\033[0m" && sleep 2
 docker build -t ${IMAGE} ${DOCKERFILE_FOlDER}
 docker tag ${IMAGE} ${IMAGE_TAGGED}
 
-echo "\n\n"
+echo -e "\n\n"
 
 if [ ${UPLOAD} -eq 1 ]; then
   echo -e "\033[0;32mPushing ${IMAGE_TAGGED}...\033[0m"
