@@ -90,11 +90,11 @@ fi
 IMAGE="${USERNAME}/${REPOSITORY}"
 IMAGE_TAGGED="${IMAGE}:${TAG}"
 
-echo "Building image ${IMAGE}..."
+echo "\033[0;32mBuilding image ${IMAGE}...\033[0m"
 docker build -t ${IMAGE} ${DOCKERFILE_FOlDER}
 docker tag ${IMAGE} ${IMAGE_TAGGED}
 
 if [ ${UPLOAD} -eq 1 ]; then
-  echo "Pushing ${IMAGE_TAGGED}..."
+  echo "\033[0;32m'Pushing ${IMAGE_TAGGED}...\033[0m"
   docker push rusrushal13/get-started:part1
 fi
