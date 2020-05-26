@@ -21,10 +21,19 @@ RUN apt update && \
     apt install --no-install-recommends -y \
         git \
         zip \
-        unzip
+        unzip \
+        librabbitmq-dev  # To php PECL amqp 
 
 # Install php modules.
-RUN docker-php-ext-install pdo_mysql
+RUN docker-php-ext-install \
+     pdo_mysql
+
+# Install PECL php extensions.
+RUN pecl install \
+    xdebug \
+    mongodb \
+    redis \
+    amqp
 
 EXPOSE 9000
 
