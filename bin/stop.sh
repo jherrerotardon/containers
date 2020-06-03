@@ -7,3 +7,5 @@ SCRIPT_PATH=$(dirname $(realpath $0))
 ROOT_PATH=$(dirname $SCRIPT_PATH)
 
 docker-compose -f "$ROOT_PATH/docker-compose.yml" stop
+
+exit 0
