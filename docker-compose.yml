@@ -124,6 +124,21 @@ services:
     networks:
       dev:
         ipv4_address: 10.10.10.24
+  
+  smtp:
+    image: jherrerotardon/smtp
+    container_name: smtp
+    depends_on:
+      - dns
+    volumes: 
+      - ./files/exim4/update-exim4.conf.conf:/etc/exim4/update-exim4.conf.conf:cached
+    ports: 
+      - 25:25
+    dns: 
+      - 10.10.10.2
+    networks:
+      dev:
+        ipv4_address: 10.10.10.25
 
 networks:
   dev:
