@@ -126,7 +126,7 @@ services:
         ipv4_address: 10.10.10.24
   
   smtp:
-    image: jherrerotardon/smtp
+    image: jherrerotardon/exim4
     container_name: smtp
     depends_on:
       - dns

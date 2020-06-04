@@ -19,7 +19,7 @@ help()
   echo -e "Arguments:"
   echo -e "\t -t|--tag:\t\t Sets image tag. By default: latest."
   echo -e "\t -r|--repository:\t Sets repository name. Is mandatory."
-  echo -e "\t -u|--username:\t\t Sets username. By default porject owner (jherrerotardon)."
+  echo -e "\t -U|--username:\t\t Sets username. By default porject owner (jherrerotardon)."
 
   exit 0
 }
@@ -54,7 +54,7 @@ parse_arguments()
         REPOSITORY=$2
         shift 2
         ;;
-      -u|--username)
+      -U|--username)
         check_flag_with_argument $@
         USERNAME=$2
         shift 2
