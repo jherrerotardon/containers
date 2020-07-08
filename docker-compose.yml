@@ -76,16 +76,16 @@ services:
       dev:
         ipv4_address: 10.10.10.21
 
-  mysql:
-    image: mysql:8
-    container_name: mysql
+  mariadb:
+    image: mariadb:10
+    container_name: mariadb
     environment: 
       MYSQL_ROOT_PASSWORD: development
     depends_on: 
       - dns
     volumes:
-      - ./logs/mysql:/var/log/mysql
-      - ./data/mysql:/var/lib/mysql
+      - ./logs/mariadb:/var/log/mysql
+      - ./data/mariadb:/var/lib/mysql
     dns:
       - 10.10.10.2
     ports: 
