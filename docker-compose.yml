@@ -123,6 +123,7 @@ services:
       - 10.10.10.2
     ports:
       - 15672:15672
+      - 5672:5672
     networks:
       dev:
         ipv4_address: 10.10.10.24
