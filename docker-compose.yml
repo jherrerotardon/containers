@@ -55,7 +55,7 @@ services:
     dns:
       - 10.10.10.2
     ports:
-    - 6376:6379
+      - 6376:6379
     networks:
       dev:
         ipv4_address: 10.10.10.20
