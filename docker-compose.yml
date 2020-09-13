@@ -54,6 +54,8 @@ services:
       - ./data/redis:/var/lib/redis
     dns:
       - 10.10.10.2
+    ports:
+    - 6376:6379
     networks:
       dev:
         ipv4_address: 10.10.10.20
@@ -68,27 +70,29 @@ services:
       - ./data/mongodb:/data/db
     dns:
       - 10.10.10.2
+    ports:
+      - 27017:27017
     networks:
       dev:
         ipv4_address: 10.10.10.21
 
-  mariadb:
-    image: mariadb:10
-    container_name: mariadb
-    environment: 
-      MYSQL_ROOT_PASSWORD: development
-    depends_on: 
-      - dns
-    volumes:
-      - ./logs/mariadb:/var/log/mysql
-      - ./data/mariadb:/var/lib/mysql
-    dns:
-      - 10.10.10.2
-    ports: 
-      - 3306:3306
-    networks:
-      dev:
-        ipv4_address: 10.10.10.22
+#  mariadb:
+#    image: mariadb:10
+#    container_name: mariadb
+#    environment:
+#      MYSQL_ROOT_PASSWORD: development
+#    depends_on:
+#      - dns
+#    volumes:
+#      - ./logs/mariadb:/var/log/mysql
+#      - ./data/mariadb:/var/lib/mysql
+#    dns:
+#      - 10.10.10.2
+#    ports:
+#      - 3306:3306
+#    networks:
+#      dev:
+#        ipv4_address: 10.10.10.22
 
   php:
     image: jherrerotardon/php:7.4-fpm
@@ -117,6 +121,8 @@ services:
       - ./data/rabbitmq:/var/lib/rabbitmq
     dns: 
       - 10.10.10.2
+    ports:
+      - 15672:15672
     networks:
       dev:
         ipv4_address: 10.10.10.24
