@@ -2,10 +2,10 @@ version: '3'
 
 services:
   portainer:
-    image: portainer/portainer
+    image: portainer/portainer-ce
     container_name: portainer
     volumes:
-      - ./data/portainer:/data
+      - ./data/portainer:/data portainer/portainer-ce
       - /var/run/docker.sock:/var/run/docker.sock
     dns:
       - 1.1.1.1
@@ -13,6 +13,7 @@ services:
     networks:
       dev:
         ipv4_address: 10.10.10.253
+    command: --admin-password '$$2y$$05$$vq5Oi1C./DsZ0gLu29kiiOUWHuFfZurFYgmSIoldK9dJ03j9zKuOO' # 12345678 admin password
 
   dns:
     image: jherrerotardon/dnsmasq:2.80
@@ -30,7 +31,9 @@ services:
     container_name: nginx
     depends_on: 
       - dns
+      - gunicorn
     volumes:
+      - ./files/nginx/proxy_params/:/etc/nginx/proxy_params:cached
       - ${PROJECTS_PATH}/php:/var/www:cached
       - ./files/nginx/config/conf.d:/etc/nginx/conf.d:cached
       - ./files/nginx/certs:/etc/ssl/certs:cached
@@ -135,6 +138,21 @@ services:
     networks:
       dev:
         ipv4_address: 10.10.10.25
+
+  gunicorn:
+    image: jherrerotardon/python:3.9
+    container_name: gunicorn
+    volumes:
+      - ${PROJECTS_PATH}/python:/var/www:cached
+    working_dir: /var/www/gunicorn-flask
+    command: ["./start.sh"]
+    ports:
+      - 8000:8000
+    dns:
+      - 10.10.10.2
+    networks:
+      dev:
+        ipv4_address: 10.10.10.26
 
 networks:
   dev:
